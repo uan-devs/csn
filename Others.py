@@ -1,7 +1,7 @@
 from Valid import is_arquivo_valido, isv, inv
 from converter import converter, converter_int_rom, converter_rom_int
 from Translator import ext
-from os import path, system
+from os import path
 
 
 def __exportar(x, y, z):
@@ -95,7 +95,6 @@ def sobre():
             zou-se caracteres D, B, H, O para represen-
             tar as bases númericas e estas são as úni-
             cas existentes no programa.""")
-    system("pause")
 
     print("""
             2º Verificar se um número é válido numa base
@@ -106,7 +105,6 @@ def sobre():
 
 
 def listagem():
-    system("cls")
     prt()
     print("Lista das bases numéricas disponíveis".center(110))
     prt()
@@ -138,7 +136,6 @@ def rep_ascii(x, y):
 
 
 def menu():
-    system("cls")
     prt()
     print("\t\t\tBem-vindo ao Sistema de conversão bases númericas")
     prt()
@@ -156,17 +153,13 @@ def menu():
     opc = int(input("Selecione a sua opção: "))
 
     if opc == 10 or opc not in list(range(1, 10)):
-        system("cls")
+        pass
 
     if opc == 1:
-        system("cls")
         sobre()
-        system("pause")
-        system("cls")
         menu()
 
     if opc == 2:
-        system("cls")
         try:
             prt()
             print("Verificação de bases numéricas.".center(110))
@@ -176,19 +169,13 @@ def menu():
             esc = input("Deseja ver as bases disponíveis(S/N): ").upper()
             if esc == "S":
                 listagem()
-            system("pause")
-            system("cls")
             menu()
         except TypeError:
-            system("cls")
             msg()
             print("Parâmetro inválido.\n")
-            system("pause")
-            system("cls")
             menu()
 
     if opc == 3:
-        system("cls")
         try:
             prt()
             print("Verificação de números nas bases numéricas.".center(110))
@@ -196,19 +183,13 @@ def menu():
             x = input("\nIntroduza o número: ").upper()
             y = input("Introduza a base: ").upper()
             print("\nO número é valido.\n" if inv(x, y) else "\nÑ é válido.\n")
-            system("pause")
-            system("cls")
             menu()
         except TypeError:
-            system("cls")
             msg()
             print("Parâmetro inválido.\n")
-            system("pause")
-            system("cls")
             menu()
 
     if opc == 4:
-        system("cls")
         try:
             prt()
             print("Conversão de um número de uma base numérica para outra"
@@ -221,19 +202,13 @@ def menu():
                 print("\n(%s)%s = (%s)%s\n" % (x, y, converter(x, y, z), z))
             else:
                 print('\nIntroduza números válidos e bases válidas.\n')
-            system("pause")
-            system("cls")
             menu()
         except TypeError:
-            system("cls")
             msg()
             print("Parâmetro inválido.\n")
-            system("pause")
-            system("cls")
             menu()
 
     if opc == 5:
-        system("cls")
         try:
             prt()
             print("Conversão de um número romano para inteiro.".center(110))
@@ -244,24 +219,16 @@ def menu():
             if b == x:
                 print("\n(%s)%s = (%i)%s\n" % (
                     x, "R", converter_rom_int(x), "D"))
-                system("pause")
-                system("cls")
                 menu()
             else:
                 print("\nO número não existe.\n")
-                system("pause")
-                system("cls")
                 menu()
         except TypeError:
-            system("cls")
             msg()
             print("Parâmetro inválido.\n")
-            system("pause")
-            system("cls")
             menu()
 
     if opc == 6:
-        system("cls")
         try:
             prt()
             print("Conversão de um número inteiro para romano.".center(110))
@@ -272,19 +239,13 @@ def menu():
             else:
                 print("\n(%i)%s = (%s)%s\n" % (
                     x, "D", converter_int_rom(x), "R"))
-            system("pause")
-            system("cls")
             menu()
         except TypeError:
-            system("cls")
             msg()
             print("Parâmetro inválido.\n")
-            system("pause")
-            system("cls")
             menu()
 
     if opc == 7:
-        system("cls")
         try:
             prt()
             print("Apresentação de um número por extenso.".center(110))
@@ -292,19 +253,13 @@ def menu():
             x = input("\nIntroduza o número: ").upper()
             y = input("Base numérica: ").upper()
             print("\n%s\n" % ext(x, y))
-            system("pause")
-            system("cls")
             menu()
         except TypeError:
-            system("cls")
             msg()
             print("Parâmetro inválido.\n")
-            system("pause")
-            system("cls")
             menu()
 
     if opc == 8:
-        system("cls")
         try:
             prt()
             print("Exportar ficheiro com números convertidos.".center(110))
@@ -314,21 +269,14 @@ def menu():
                 f) else "\nO ficheiro é inválido...\n")
             esc = input('Ver o arquivo exportado(S/N): ').upper()
             if esc == 'S':
-                system("cls")
                 ver()
-            system("pause")
-            system("cls")
             menu()
         except TypeError:
-            system("cls")
             msg()
             print("O ficheiro não foi exportado.\n")
-            system("pause")
-            system("cls")
             menu()
 
     if opc == 9:
-        system("cls")
         try:
             prt()
             print("Representação ASCII.".center(110))
@@ -336,13 +284,8 @@ def menu():
             x = input("\nEscreva qualquer coisa: ")
             y = input("Base numérica para representação: ").upper()
             rep_ascii(x, y)
-            system("pause")
-            system("cls")
             menu()
         except TypeError:
-            system("cls")
             msg()
             print("Parâmetro inválido.\n")
-            system("pause")
-            system("cls")
             menu()
