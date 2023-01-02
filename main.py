@@ -41,9 +41,10 @@ if __name__ == '__main__':
         help='Convert a number from one base to another',
         description='Convert a number'
     )
+    convert_parser.add_argument('-v', '--verbose', help='Use verbose output', action="store_true")
     convert_parser.add_argument('number', help='number')
-    convert_parser.add_argument('from', help='number base')
-    convert_parser.add_argument('to', help='convert to')
+    convert_parser.add_argument('base01', help='number base')
+    convert_parser.add_argument('base02', help='base to convert to')
     convert_parser.set_defaults(func=convert_handler)
 
     args = parser.parse_args()
