@@ -17,6 +17,40 @@ def convert_bin_dec(number: str) -> str:
         return ''
 
 
+def convert_oct_dec(number: str) -> str:
+    convert_number = 0
+    if has_coma(number):
+        if not is_coma_valid(number):
+            return ''
+
+    try:
+        for i, j in enumerate(number[::-1]):
+            if j != '0':
+                convert_number += int(j) * pow(8, i)
+        return str(convert_number)
+    except TypeError:
+        return ''
+
+
+def convert_hex_dec(number: str) -> str:
+    convert_number = 0
+    hex_letters_values = {'A': 10, 'B': 11, 'C': 12, 'D': 13, 'E': 14, 'F': 15}
+    if has_coma(number):
+        if not is_coma_valid(number):
+            return ''
+
+    try:
+        for i, j in enumerate(number[::-1]):
+            if j != '0':
+                if j.isnumeric():
+                    convert_number += int(j) * pow(16, i)
+                else:
+                    convert_number += hex_letters_values[j] * pow(16, i)
+        return str(convert_number)
+    except TypeError:
+        return ''
+
+
 def convert_dec_bin(number: str) -> str:
     try:
         convert_number = ''
@@ -151,6 +185,26 @@ def convert(number: str, base_from: str, base_to: str, verbose: bool = False) ->
                         except TypeError:
                             print('%s does not exist in %s system' % (number, BASE_VERBOSE[base_from]))
                     return convert_dec_rom(number)
+        case 'O':
+            match base_to:
+                case 'D':
+                    return convert_oct_dec(number)
+                case 'H':
+                    return 'Hexadecimal'
+                case 'B':
+                    return 'Octal'
+                case 'R':
+                    return 'Roman'
+        case 'H':
+            match base_to:
+                case 'D':
+                    return convert_hex_dec(number)
+                case 'O':
+                    return 'Hexadecimal'
+                case 'B':
+                    return 'Octal'
+                case 'R':
+                    return 'Roman'
 
     return 'EMPTY'
 
