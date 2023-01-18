@@ -51,6 +51,39 @@ def convert_hex_dec(number: str) -> str:
         return ''
 
 
+def convert_rom_dec(number: str) -> str:
+    convert_number = 0
+    rom_base_numbers = {
+        'I': 1, 'V': 5, 'X': 10, 'L': 50, 'C': 100, 'D': 500, 'M': 1000
+    }
+
+    try:
+        i = 0
+        while i < len(number):
+            # Get the value of current symbol
+            n1 = rom_base_numbers[number[i]]
+
+            if (i + 1) < len(number):
+                # Get the value of next symbol
+                n2 = rom_base_numbers[number[i+1]]
+                if n1 >= n2:
+                    convert_number += n1
+                    i += 1
+                else:
+                    convert_number += n2 - n1
+                    i += 2
+            else:
+                convert_number += n1
+                i += 1
+
+        return str(convert_number) \
+            if number == convert_dec_rom(str(convert_number)) \
+            else ''
+
+    except KeyError:
+        return ''
+
+
 def convert_dec_bin(number: str) -> str:
     try:
         convert_number = ''
@@ -208,7 +241,7 @@ def convert(number: str, base_from: str, base_to: str, verbose: bool = False) ->
         case 'R':
             match base_to:
                 case 'D':
-                    return 'Roman'
+                    return convert_rom_dec(number)
                 case 'O':
                     return 'Roman'
                 case 'B':
