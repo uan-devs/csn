@@ -156,9 +156,9 @@ def convert(number: str, base_from: str, base_to: str, verbose: bool = False) ->
                 case 'D':
                     return convert_bin_dec(number)
                 case 'H':
-                    return 'Hexadecimal'
+                    return convert_dec_hex(convert_bin_dec(number))
                 case 'O':
-                    return 'Octal'
+                    return convert_dec_oct(convert_bin_dec(number))
                 case 'R':
                     if verbose and has_coma(number):
                         print('Unable to convert floating point number to roman base')
@@ -190,9 +190,9 @@ def convert(number: str, base_from: str, base_to: str, verbose: bool = False) ->
                 case 'D':
                     return convert_oct_dec(number)
                 case 'H':
-                    return 'Hexadecimal'
+                    return convert_dec_hex(convert_oct_dec(number))
                 case 'B':
-                    return 'Octal'
+                    return convert_dec_bin(convert_oct_dec(number))
                 case 'R':
                     return 'Roman'
         case 'H':
@@ -200,10 +200,20 @@ def convert(number: str, base_from: str, base_to: str, verbose: bool = False) ->
                 case 'D':
                     return convert_hex_dec(number)
                 case 'O':
-                    return 'Hexadecimal'
+                    return convert_dec_oct(convert_hex_dec(number))
                 case 'B':
-                    return 'Octal'
+                    return convert_dec_bin(convert_hex_dec(number))
                 case 'R':
+                    return 'Roman'
+        case 'R':
+            match base_to:
+                case 'D':
+                    return 'Roman'
+                case 'O':
+                    return 'Roman'
+                case 'B':
+                    return 'Roman'
+                case 'H':
                     return 'Roman'
 
     return 'EMPTY'
