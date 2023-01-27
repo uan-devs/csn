@@ -7,6 +7,7 @@ def convert_bin_dec(number: str) -> str:
     if has_coma(number):
         if not is_coma_valid(number):
             return ''
+        return ''
 
     try:
         for i, j in enumerate(number[::-1]):
@@ -22,6 +23,7 @@ def convert_oct_dec(number: str) -> str:
     if has_coma(number):
         if not is_coma_valid(number):
             return ''
+        return ''
 
     try:
         for i, j in enumerate(number[::-1]):
@@ -38,6 +40,7 @@ def convert_hex_dec(number: str) -> str:
     if has_coma(number):
         if not is_coma_valid(number):
             return ''
+        return ''
 
     try:
         for i, j in enumerate(number[::-1]):
