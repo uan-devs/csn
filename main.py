@@ -7,34 +7,12 @@ import sys
 
 from globals.system import CURRENT_VERSION
 from commands.convert import convert_handler
-from commands.test import test_handler
-from commands.info import info_handler
-from commands.show import show_handler
-from commands.file import file_handler
+from commands.sum import sum_handler
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='A command line utility to numbers', prog='csn')
     parser.add_argument('-v', '--version', help='Display the current version', action="store_true")
     subparsers = parser.add_subparsers(dest='command', help='command help')
-
-    info_parser = subparsers.add_parser('info', help='Display info about the project')
-    info_parser.set_defaults(func=info_handler)
-
-    show_parser = subparsers.add_parser('show', help='Show a number in words')
-    show_parser.set_defaults(func=show_handler)
-
-    file_parser = subparsers.add_parser('load', help='Load a file and convert all numbers')
-    file_parser.add_argument('filename', help='file name')
-    file_parser.set_defaults(func=file_handler)
-
-    test_parser = subparsers.add_parser(
-        'test',
-        help='Tests if a number or base or both are valid',
-        description='Test number and/or base'
-    )
-    test_parser.add_argument('base', help='base')
-    test_parser.add_argument('number', help='number')
-    test_parser.set_defaults(func=test_handler)
 
     convert_parser = subparsers.add_parser(
         'convert',
@@ -46,6 +24,20 @@ if __name__ == '__main__':
     convert_parser.add_argument('base01', help='number base')
     convert_parser.add_argument('base02', help='base to convert to')
     convert_parser.set_defaults(func=convert_handler)
+
+    sum_parser = subparsers.add_parser(
+        'sum',
+        help='Sum two or more numbers from all bases and put the results to a specified base',
+        description='Sum two or more numbers'
+    )
+    sum_parser.add_argument('-v', '--verbose', help='Use verbose output', action="store_true")
+    sum_parser.add_argument('-f', '--force', help='Force sum', action="store_true")
+    sum_parser.add_argument('--bin', '--binary-numbers', nargs='*', help='Add binary numbers to sum')
+    sum_parser.add_argument('--dec', '--decimal-numbers', nargs='*', help='Add decimal numbers to sum')
+    sum_parser.add_argument('--hex', '--hexadecimal-numbers', nargs='*', help='Add hex numbers to sum')
+    sum_parser.add_argument('--oct', '--octal-numbers', nargs='*', help='Add octal numbers to sum')
+    sum_parser.add_argument('--rom', '--roman-numbers', nargs='*', help='Add roman numbers to sum')
+    sum_parser.set_defaults(func=sum_handler)
 
     args = parser.parse_args()
 

@@ -7,6 +7,7 @@ def convert_bin_dec(number: str) -> str:
     if has_coma(number):
         if not is_coma_valid(number):
             return ''
+        return ''
 
     try:
         for i, j in enumerate(number[::-1]):
@@ -22,6 +23,7 @@ def convert_oct_dec(number: str) -> str:
     if has_coma(number):
         if not is_coma_valid(number):
             return ''
+        return ''
 
     try:
         for i, j in enumerate(number[::-1]):
@@ -38,6 +40,7 @@ def convert_hex_dec(number: str) -> str:
     if has_coma(number):
         if not is_coma_valid(number):
             return ''
+        return ''
 
     try:
         for i, j in enumerate(number[::-1]):
@@ -48,6 +51,39 @@ def convert_hex_dec(number: str) -> str:
                     convert_number += hex_letters_values[j] * pow(16, i)
         return str(convert_number)
     except TypeError:
+        return ''
+
+
+def convert_rom_dec(number: str) -> str:
+    convert_number = 0
+    rom_base_numbers = {
+        'I': 1, 'V': 5, 'X': 10, 'L': 50, 'C': 100, 'D': 500, 'M': 1000
+    }
+
+    try:
+        i = 0
+        while i < len(number):
+            # Get the value of current symbol
+            n1 = rom_base_numbers[number[i]]
+
+            if (i + 1) < len(number):
+                # Get the value of next symbol
+                n2 = rom_base_numbers[number[i+1]]
+                if n1 >= n2:
+                    convert_number += n1
+                    i += 1
+                else:
+                    convert_number += n2 - n1
+                    i += 2
+            else:
+                convert_number += n1
+                i += 1
+
+        return str(convert_number) \
+            if number == convert_dec_rom(str(convert_number)) \
+            else ''
+
+    except KeyError:
         return ''
 
 
@@ -160,9 +196,19 @@ def convert(number: str, base_from: str, base_to: str, verbose: bool = False) ->
                 case 'O':
                     return convert_dec_oct(convert_bin_dec(number))
                 case 'R':
-                    if verbose and has_coma(number):
-                        print('Unable to convert floating point number to roman base')
-                    return 'Roman'
+                    _ = int(convert_bin_dec(number))
+                    if verbose:
+                        if has_coma(number):
+                            print(
+                                'Unable to convert '
+                                'floating point number to roman base'
+                            )
+                        try:
+                            if _ > MAX_DECIMAL_ROMAN_NUMBER:
+                                print('Max value to convert to roman base reached')
+                        except TypeError:
+                            print('%s does not exist in %s system' % (number, BASE_VERBOSE[base_from]))
+                    return convert_dec_rom(str(_))
         case 'D':
             match base_to:
                 case 'B':
@@ -194,7 +240,19 @@ def convert(number: str, base_from: str, base_to: str, verbose: bool = False) ->
                 case 'B':
                     return convert_dec_bin(convert_oct_dec(number))
                 case 'R':
-                    return 'Roman'
+                    _ = int(convert_oct_dec(number))
+                    if verbose:
+                        if has_coma(number):
+                            print(
+                                'Unable to convert '
+                                'floating point number to roman base'
+                            )
+                        try:
+                            if _ > MAX_DECIMAL_ROMAN_NUMBER:
+                                print('Max value to convert to roman base reached')
+                        except TypeError:
+                            print('%s does not exist in %s system' % (number, BASE_VERBOSE[base_from]))
+                    return convert_dec_rom(str(_))
         case 'H':
             match base_to:
                 case 'D':
@@ -204,17 +262,29 @@ def convert(number: str, base_from: str, base_to: str, verbose: bool = False) ->
                 case 'B':
                     return convert_dec_bin(convert_hex_dec(number))
                 case 'R':
-                    return 'Roman'
+                    _ = int(convert_hex_dec(number))
+                    if verbose:
+                        if has_coma(number):
+                            print(
+                                'Unable to convert '
+                                'floating point number to roman base'
+                            )
+                        try:
+                            if _ > MAX_DECIMAL_ROMAN_NUMBER:
+                                print('Max value to convert to roman base reached')
+                        except TypeError:
+                            print('%s does not exist in %s system' % (number, BASE_VERBOSE[base_from]))
+                    return convert_dec_rom(str(_))
         case 'R':
             match base_to:
                 case 'D':
-                    return 'Roman'
+                    return convert_rom_dec(number)
                 case 'O':
-                    return 'Roman'
+                    return convert_dec_oct(convert_rom_dec(number))
                 case 'B':
-                    return 'Roman'
+                    return convert_dec_bin(convert_rom_dec(number))
                 case 'H':
-                    return 'Roman'
+                    return convert_dec_hex(convert_rom_dec(number))
 
     return 'EMPTY'
 
