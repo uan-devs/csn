@@ -2,12 +2,28 @@ from helpers.validation import is_valid_number, has_coma, is_coma_valid, is_base
 from globals.numbers import BASE_VERBOSE, MAX_DECIMAL_ROMAN_NUMBER
 
 
+def convert_float_bin_dec(number: str) -> str:
+    convert_number = 0
+    if not is_coma_valid(number):
+        return ''
+
+    int_part, float_part = number.split('.')
+
+    convert_number += int(convert_bin_dec(int_part))
+
+    for i, j in enumerate(float_part):
+        if j != '0':
+            convert_number += pow(2, -(i+1))
+
+    return str(convert_number)
+
+
 def convert_bin_dec(number: str) -> str:
     convert_number = 0
     if has_coma(number):
         if not is_coma_valid(number):
             return ''
-        return ''
+        return convert_float_bin_dec(number)
 
     try:
         for i, j in enumerate(number[::-1]):
@@ -18,12 +34,28 @@ def convert_bin_dec(number: str) -> str:
         return ''
 
 
+def convert_float_oct_dec(number: str) -> str:
+    convert_number = 0
+    if not is_coma_valid(number):
+        return ''
+
+    int_part, float_part = number.split('.')
+
+    convert_number += int(convert_oct_dec(int_part))
+
+    for i, j in enumerate(float_part):
+        if j != '0':
+            convert_number += int(j) * pow(8, -(i+1))
+
+    return str(convert_number)
+
+
 def convert_oct_dec(number: str) -> str:
     convert_number = 0
     if has_coma(number):
         if not is_coma_valid(number):
             return ''
-        return ''
+        return convert_float_oct_dec(number)
 
     try:
         for i, j in enumerate(number[::-1]):
@@ -34,13 +66,32 @@ def convert_oct_dec(number: str) -> str:
         return ''
 
 
+def convert_float_hex_dec(number: str) -> str:
+    convert_number = 0
+    hex_letters_values = {'A': 10, 'B': 11, 'C': 12, 'D': 13, 'E': 14, 'F': 15}
+    if not is_coma_valid(number):
+        return ''
+
+    int_part, float_part = number.split('.')
+
+    convert_number += int(convert_hex_dec(int_part))
+
+    for i, j in enumerate(float_part):
+        if j.isnumeric():
+            convert_number += int(j) * pow(16, -(i+1))
+        else:
+            convert_number += hex_letters_values[j] * pow(16, -(i+1))
+
+    return str(convert_number)
+
+
 def convert_hex_dec(number: str) -> str:
     convert_number = 0
     hex_letters_values = {'A': 10, 'B': 11, 'C': 12, 'D': 13, 'E': 14, 'F': 15}
     if has_coma(number):
         if not is_coma_valid(number):
             return ''
-        return ''
+        return convert_float_hex_dec(number)
 
     try:
         for i, j in enumerate(number[::-1]):
@@ -85,6 +136,15 @@ def convert_rom_dec(number: str) -> str:
 
     except KeyError:
         return ''
+
+
+def convert_float_dec_bin(number: str) -> str:
+    convert_number = ''
+    op_number = int(number)
+
+    int_part, float_part = number.split('.')
+
+    return convert_number
 
 
 def convert_dec_bin(number: str) -> str:
@@ -192,8 +252,16 @@ def convert(number: str, base_from: str, base_to: str, verbose: bool = False) ->
                 case 'D':
                     return convert_bin_dec(number)
                 case 'H':
+                    if has_coma(number):
+                        if verbose:
+                            print('Function not implemented')
+                        return ''
                     return convert_dec_hex(convert_bin_dec(number))
                 case 'O':
+                    if has_coma(number):
+                        if verbose:
+                            print('Function not implemented')
+                        return ''
                     return convert_dec_oct(convert_bin_dec(number))
                 case 'R':
                     _ = int(convert_bin_dec(number))
@@ -212,10 +280,22 @@ def convert(number: str, base_from: str, base_to: str, verbose: bool = False) ->
         case 'D':
             match base_to:
                 case 'B':
+                    if has_coma(number):
+                        if verbose:
+                            print('Function not implemented')
+                        return ''
                     return convert_dec_bin(number)
                 case 'H':
+                    if has_coma(number):
+                        if verbose:
+                            print('Function not implemented')
+                        return ''
                     return convert_dec_hex(number)
                 case 'O':
+                    if has_coma(number):
+                        if verbose:
+                            print('Function not implemented')
+                        return ''
                     return convert_dec_oct(number)
                 case 'R':
                     if verbose:
@@ -236,8 +316,16 @@ def convert(number: str, base_from: str, base_to: str, verbose: bool = False) ->
                 case 'D':
                     return convert_oct_dec(number)
                 case 'H':
+                    if has_coma(number):
+                        if verbose:
+                            print('Function not implemented')
+                        return ''
                     return convert_dec_hex(convert_oct_dec(number))
                 case 'B':
+                    if has_coma(number):
+                        if verbose:
+                            print('Function not implemented')
+                        return ''
                     return convert_dec_bin(convert_oct_dec(number))
                 case 'R':
                     _ = int(convert_oct_dec(number))
@@ -258,8 +346,16 @@ def convert(number: str, base_from: str, base_to: str, verbose: bool = False) ->
                 case 'D':
                     return convert_hex_dec(number)
                 case 'O':
+                    if has_coma(number):
+                        if verbose:
+                            print('Function not implemented')
+                        return ''
                     return convert_dec_oct(convert_hex_dec(number))
                 case 'B':
+                    if has_coma(number):
+                        if verbose:
+                            print('Function not implemented')
+                        return ''
                     return convert_dec_bin(convert_hex_dec(number))
                 case 'R':
                     _ = int(convert_hex_dec(number))
