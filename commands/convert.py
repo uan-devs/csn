@@ -5,8 +5,16 @@ from globals.numbers import BASE_VERBOSE, MAX_DECIMAL_ROMAN_NUMBER
 def convert_bin_dec(number: str) -> str:
     convert_number = 0
     if has_coma(number):
-        if not is_coma_valid(number):
-            return ''
+        if is_coma_valid(number):
+            part_int, part_float = number.split('.')
+            convert_number += int(convert_bin_dec(part_int))
+            try:
+                for i, j in enumerate(part_float):
+                    if j != '0':
+                        convert_number += pow(2, -(i+1))
+                return str(convert_number)
+            except TypeError:
+                return ''
         return ''
 
     try:
@@ -21,8 +29,16 @@ def convert_bin_dec(number: str) -> str:
 def convert_oct_dec(number: str) -> str:
     convert_number = 0
     if has_coma(number):
-        if not is_coma_valid(number):
-            return ''
+        if is_coma_valid(number):
+            part_int, part_float = number.split('.')
+            convert_number += int(convert_oct_dec(part_int))
+            try:
+                for i, j in enumerate(part_float):
+                    if j != '0':
+                        convert_number += int(j) * pow(8, -(i + 1))
+                return str(convert_number)
+            except TypeError:
+                return ''
         return ''
 
     try:
@@ -38,8 +54,18 @@ def convert_hex_dec(number: str) -> str:
     convert_number = 0
     hex_letters_values = {'A': 10, 'B': 11, 'C': 12, 'D': 13, 'E': 14, 'F': 15}
     if has_coma(number):
-        if not is_coma_valid(number):
-            return ''
+        if is_coma_valid(number):
+            part_int, part_float = number.split('.')
+            convert_number += int(convert_hex_dec(part_int))
+            try:
+                for i, j in enumerate(part_float):
+                    if j.isnumeric():
+                        convert_number += int(j) * pow(16, -(i+1))
+                    else:
+                        convert_number += hex_letters_values[j] * pow(16, -(i+1))
+                return str(convert_number)
+            except TypeError:
+                return ''
         return ''
 
     try:
