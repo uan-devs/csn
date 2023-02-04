@@ -6,3 +6,4 @@ DECIMAL: list[str] = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.']
 HEX: list[str] = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', '.']
 ROMAN: list[str] = ['I', 'V', 'X', 'L', 'C', 'D', 'M']
 MAX_DECIMAL_ROMAN_NUMBER = 3999
+MAX_MANTISSA = 20

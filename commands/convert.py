@@ -1,5 +1,5 @@
 from helpers.validation import is_valid_number, has_coma, is_coma_valid, is_base
-from globals.numbers import BASE_VERBOSE, MAX_DECIMAL_ROMAN_NUMBER
+from globals.numbers import BASE_VERBOSE, MAX_DECIMAL_ROMAN_NUMBER, MAX_MANTISSA
 
 
 def convert_bin_dec(number: str) -> str:
@@ -113,9 +113,31 @@ def convert_rom_dec(number: str) -> str:
         return ''
 
 
-def convert_dec_bin(number: str) -> str:
+def convert_dec_bin(number: str, mantissa: int = 7) -> str:
+    convert_number = ''
+    if has_coma(number):
+        if is_coma_valid(number):
+            part_int, part_float = number.split('.')
+            convert_number += convert_dec_bin(part_int) + '.'
+
+            try:
+                ctrl = float('.' + part_float)
+                for i in range(mantissa):
+                    ctrl *= 2
+                    if ctrl > 1:
+                        convert_number += str(ctrl)[0]
+                        ctrl -= 1
+                    else:
+                        convert_number += str(ctrl)[0]
+                    if ctrl == int(ctrl):
+                        print(ctrl)
+                        break
+            except ValueError:
+                return ''
+
+            return convert_number
+        return ''
     try:
-        convert_number = ''
         op_number = int(number)
         if has_coma(number):
             if not is_coma_valid(number):
@@ -129,9 +151,31 @@ def convert_dec_bin(number: str) -> str:
         return ''
 
 
-def convert_dec_oct(number: str) -> str:
+def convert_dec_oct(number: str, mantissa: int = 7) -> str:
+    convert_number = ''
+    if has_coma(number):
+        if is_coma_valid(number):
+            part_int, part_float = number.split('.')
+            convert_number += convert_dec_oct(part_int) + '.'
+
+            try:
+                ctrl = float('.' + part_float)
+                for i in range(mantissa):
+                    ctrl *= 8
+                    if ctrl > 7:
+                        convert_number += str(ctrl)[0]
+                        ctrl -= 7
+                    else:
+                        convert_number += str(ctrl)[0]
+                    if ctrl == int(ctrl):
+                        print(ctrl)
+                        break
+            except ValueError:
+                return ''
+
+            return convert_number
+        return ''
     try:
-        convert_number = ''
         op_number = int(number)
         if has_coma(number):
             if not is_coma_valid(number):
@@ -145,11 +189,36 @@ def convert_dec_oct(number: str) -> str:
         return ''
 
 
-def convert_dec_hex(number: str) -> str:
+def convert_dec_hex(number: str, mantissa: int = 7) -> str:
+    convert_number = ''
+    decimal_letters = {10: 'A', 11: 'B', 12: 'C', 13: 'D', 14: 'E', 15: 'F'}
+    if has_coma(number):
+        if is_coma_valid(number):
+            part_int, part_float = number.split('.')
+            convert_number += convert_dec_hex(part_int) + '.'
+
+            try:
+                ctrl = float('.' + part_float)
+                for i in range(mantissa):
+                    ctrl *= 16
+                    if ctrl > 15:
+                        convert_number += decimal_letters[int(ctrl)]
+                        ctrl -= 15
+                    elif ctrl >= 10:
+                        convert_number += decimal_letters[int(ctrl)]
+                        ctrl -= int(ctrl)
+                    else:
+                        convert_number += str(ctrl)[0]
+                        ctrl -= int(ctrl)
+                    if ctrl == int(ctrl):
+                        break
+            except ValueError:
+                return ''
+
+            return convert_number
+        return ''
     try:
-        convert_number = ''
         op_number = int(number)
-        decimal_letters = {10: 'A', 11: 'B', 12: 'C', 13: 'D', 14: 'E', 15: 'F'}
         if has_coma(number):
             if not is_coma_valid(number):
                 return ''
@@ -199,15 +268,22 @@ def convert_dec_rom(number: str) -> str:
         return ''
 
 
-def convert(number: str, base_from: str, base_to: str, verbose: bool = False) -> str:
+def convert(number: str, base_from: str, base_to: str, mantissa: int = 7, verbose: bool = False) -> str:
     if len(number) == 0:
         return ''
     if not is_base(base_to):
+        if verbose:
+            print('Base %s does not exists' % base_to)
         return ''
     if not is_valid_number(number, base_from, verbose=verbose):
         if verbose and is_base(base_from):
             print('%s does not exist in %s system' % (number, BASE_VERBOSE[base_from]))
         return ''
+
+    if mantissa <= 0 or mantissa > MAX_MANTISSA:
+        mantissa = 7
+        if verbose:
+            print('Mantissa out of bounds, changing to 7')
 
     if base_from == base_to:
         return number
@@ -238,11 +314,11 @@ def convert(number: str, base_from: str, base_to: str, verbose: bool = False) ->
         case 'D':
             match base_to:
                 case 'B':
-                    return convert_dec_bin(number)
+                    return convert_dec_bin(number, mantissa)
                 case 'H':
-                    return convert_dec_hex(number)
+                    return convert_dec_hex(number, mantissa)
                 case 'O':
-                    return convert_dec_oct(number)
+                    return convert_dec_oct(number, mantissa)
                 case 'R':
                     if verbose:
                         if has_coma(number):
@@ -316,4 +392,4 @@ def convert(number: str, base_from: str, base_to: str, verbose: bool = False) ->
 
 
 def convert_handler(args):
-    print(convert(args.number, args.base01, args.base02, verbose=args.verbose))
+    print(convert(args.number, args.base01, args.base02, verbose=args.verbose, mantissa=args.mantissa or 7))
