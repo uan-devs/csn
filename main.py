@@ -23,6 +23,7 @@ if __name__ == '__main__':
     convert_parser.add_argument('number', help='number')
     convert_parser.add_argument('base01', help='number base')
     convert_parser.add_argument('base02', help='base to convert to')
+    convert_parser.add_argument('-m', '--mantissa', type=int, help='number of digits after coma')
     convert_parser.set_defaults(func=convert_handler)
 
     sum_parser = subparsers.add_parser(
