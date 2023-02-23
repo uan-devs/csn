@@ -8,6 +8,7 @@ import sys
 from globals.system import CURRENT_VERSION
 from commands.convert import convert_handler
 from commands.sum import sum_handler
+from commands.translate import translate_handler
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='A command line utility to numbers', prog='csn')
@@ -23,7 +24,7 @@ if __name__ == '__main__':
     convert_parser.add_argument('number', help='number')
     convert_parser.add_argument('base01', help='number base')
     convert_parser.add_argument('base02', help='base to convert to')
-    convert_parser.add_argument('-m', '--mantissa', type=int, help='number of digits after coma')
+    convert_parser.add_argument('-m', '--mantissa', default=7, type=int, help='number of digits after coma')
     convert_parser.set_defaults(func=convert_handler)
 
     sum_parser = subparsers.add_parser(
@@ -39,6 +40,17 @@ if __name__ == '__main__':
     sum_parser.add_argument('--oct', '--octal-numbers', nargs='*', help='Add octal numbers to sum')
     sum_parser.add_argument('--rom', '--roman-numbers', nargs='*', help='Add roman numbers to sum')
     sum_parser.set_defaults(func=sum_handler)
+
+    translate_parser = subparsers.add_parser(
+        'translate',
+        help='Write the number in full',
+        description='Write the number in full'
+    )
+    translate_parser.add_argument('-v', '--verbose', help='Use verbose output', action="store_true")
+    translate_parser.add_argument('-n', '--number', help='number')
+    translate_parser.add_argument('-b', '--base', default='D', help='number base', required=False)
+    translate_parser.add_argument('-m', '--mantissa', default=7, type=int, help='number of digits after coma')
+    translate_parser.set_defaults(func=translate_handler)
 
     args = parser.parse_args()
 
