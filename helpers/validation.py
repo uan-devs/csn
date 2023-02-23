@@ -45,7 +45,7 @@ def is_decimal(number: str) -> bool:
 
 
 def is_roman(number: str) -> bool:
-    if has_coma(number) and not is_coma_valid(number):
+    if has_coma(number):
         return False
 
     count_roman = 0
