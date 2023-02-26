@@ -7,6 +7,7 @@
   - [Sobre](#sobre)
   - [Descrição](#descrição)
   - [Instalação](#instalação)
+  - [Comandos](#comandos)
   - [Contribuir](#contribuir)
 
 ## Sobre
@@ -53,6 +54,43 @@ Para confirmar se a instalação foi bem sucedida:
 ```bash
 python main.py --help
 ```
+
+---
+
+## Comandos
+
+- convert
+  ```txt
+  Converte um número de uma base numérica para outra
+  ```
+  ```txt
+  convert [-h] [-v] number [-m mantiss] base_from base_to
+  ```
+  ```txt
+  convert -v -m 8 10010.0110 B D # 18.375
+  ```
+
+- sum
+  ```txt
+  Efetua a soma de listas de números das variadas bases numéricas
+  ```
+  ```txt
+  sum [-h] [-v] [-f] [--bin [BIN ...]] [--dec [DEC ...]] [--hex [HEX ...]] [--oct [OCT ...]] [--rom [ROM ...]]
+  ```
+  ```txt
+  sum -v --bin 101 1 100001 --rom CM # 939
+  ```
+
+- translate
+  ```txt
+  Escreve um número por extenso (apenas em português)
+  ```
+  ```txt
+  translate [-h] [-v] -n NUMBER [-b BASE]
+  ```
+  ```txt
+  translate -v -n 2023 -b D # Dois Mil e Vinte e Três
+  ```
 
 ---
 
