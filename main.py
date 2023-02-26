@@ -47,9 +47,8 @@ if __name__ == '__main__':
         description='Write the number in full'
     )
     translate_parser.add_argument('-v', '--verbose', help='Use verbose output', action="store_true")
-    translate_parser.add_argument('-n', '--number', help='number')
+    translate_parser.add_argument('-n', '--number', help='number', required=True)
     translate_parser.add_argument('-b', '--base', default='D', help='number base', required=False)
-    translate_parser.add_argument('-m', '--mantissa', default=7, type=int, help='number of digits after coma')
     translate_parser.set_defaults(func=translate_handler)
 
     args = parser.parse_args()
