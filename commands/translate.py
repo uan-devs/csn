@@ -1,5 +1,6 @@
-from helpers.validation import is_valid_number, has_coma, is_coma_valid, is_base, is_letter
-from globals.numbers import BASE_VERBOSE, MAX_MANTISSA
+from helpers.validation import is_valid_number, has_coma, is_base, is_letter
+from commands.convert import convert_rom_dec
+from globals.numbers import BASE_VERBOSE
 
 
 def extenso(x):
@@ -139,12 +140,10 @@ def extenso(x):
         return num
 
 
-def translate(number: str, base: str, verbose: str, mantissa: int = 7) -> str:
+def translate(number: str, base: str, verbose: str) -> str:
     word = ''
 
     if len(number) == 0:
-        return ''
-    if base == 'R':
         return ''
     if not is_base(base):
         if verbose:
@@ -154,12 +153,6 @@ def translate(number: str, base: str, verbose: str, mantissa: int = 7) -> str:
         if verbose and is_base(base):
             print('%s does not exist in %s system' % (number, BASE_VERBOSE[base]))
         return ''
-
-    if mantissa <= 0 or mantissa > MAX_MANTISSA:
-        mantissa = 7
-        if verbose:
-            print('Mantissa out of bounds, changing to 7')
-
     if has_coma(number) and base == 'R':
         if verbose:
             print('Roman numbers are not float')
@@ -172,6 +165,10 @@ def translate(number: str, base: str, verbose: str, mantissa: int = 7) -> str:
         else:
             word = extenso(number)
 
+        return word
+    
+    if base == 'R':
+        word = extenso(convert_rom_dec(number))
         return word
 
     for i in number:
@@ -187,4 +184,4 @@ def translate(number: str, base: str, verbose: str, mantissa: int = 7) -> str:
 
 
 def translate_handler(args):
-    print(translate(args.number, args.base, args.verbose, mantissa=args.mantissa))
+    print(translate(args.number, args.base, args.verbose))
