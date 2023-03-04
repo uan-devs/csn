@@ -9,6 +9,7 @@
   - [Instalação](#instalação)
   - [Comandos](#comandos)
   - [Contribuir](#contribuir)
+  - [TODO](#todo)
 
 ## Sobre
 
@@ -97,3 +98,7 @@ python main.py --help
 ## Contribuir
 
 Caso encontre um bug ou uma possível melhoria para o projeto, crie uma `issue` ou uma `pull request`.
+
+## TODO
+
+- Add translate flag on convert and sum commands
